@@ -13,6 +13,9 @@ export default {
   },
 } as ComponentMeta<typeof Page>
 
+// TODO: take a look :)
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 const Template: ComponentStory<typeof Page> = (args) => <Page {...args} />
 
 export const LoggedOut = Template.bind({})
