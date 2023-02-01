@@ -1,0 +1,5 @@
+# Ignore artifacts:
+.layer0
+.next
+build
+coverage

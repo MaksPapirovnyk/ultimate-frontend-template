@@ -1,15 +1,105 @@
 {
-  "root": true,
-  "extends": ["next/core-web-vitals"],
-  "plugins": ["testing-library"],
+  "plugins": ["@typescript-eslint", "simple-import-sort", "unused-imports", "jest", "jest-dom", "testing-library"],
+  "extends": [
+    "eslint:recommended",
+
+    // https://www.npmjs.com/package/@typescript-eslint/eslint-plugin
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+
+    // https://www.npmjs.com/package/eslint-plugin-jest
+    "plugin:jest/recommended",
+    "plugin:jest/style",
+
+    // https://github.com/testing-library/eslint-plugin-jest-dom
+    "plugin:jest-dom/recommended",
+
+    // https://github.com/testing-library/eslint-plugin-jest-dom
+    "plugin:jest-dom/recommended",
+
+    // https://github.com/storybookjs/eslint-plugin-storybook
+    "plugin:storybook/recommended",
+
+    // https://nextjs.org/docs/basic-features/eslint
+    "next/core-web-vitals",
+
+    /**
+     * Make sure to put prettier last, so it gets the chance to override other
+     * configs.
+     *
+     * @see https://github.com/prettier/eslint-config-prettier
+     */
+    "prettier"
+  ],
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "ignorePatterns": ["src/i18n/i18n.config.js"],
+  "rules": {
+    // ESLint rules
+    "func-style": ["error", "declaration"],
+    "no-console": "warn",
+    "no-use-before-define": "off",
+
+    // NextJS rules
+    "@next/next/no-img-element": "off",
+
+    // https://www.npmjs.com/package/@typescript-eslint/eslint-plugin
+    "@typescript-eslint/array-type": ["error", { "default": "generic" }],
+    "@typescript-eslint/no-unsafe-call": "off",
+    "@typescript-eslint/no-unsafe-member-access": "off",
+    "@typescript-eslint/no-unsafe-assignment": "off",
+    "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
+
+    // https://www.npmjs.com/package/eslint-plugin-import
+    "import/no-default-export": "error",
+
+    "react/destructuring-assignment": "error",
+    "react/display-name": "off",
+    "react/forbid-component-props": "error",
+    "react/jsx-sort-props": "error",
+
+    "react-hooks/exhaustive-deps": ["warn", { "additionalHooks": "(useEffectOnMountOnly|useEffectOnUpdateOnly)" }],
+
+    // https://www.npmjs.com/package/eslint-plugin-simple-import-sort
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error",
+
+    // https://www.npmjs.com/package/eslint-plugin-unused-imports
+    "unused-imports/no-unused-imports": "error"
+  },
   "overrides": [
-    // Only uses Testing Library lint rules in test files
     {
-      "files": [
-        "**/__tests__/**/*.[jt]s?(x)",
-        "**/?(*.)+(spec|test).[jt]s?(x)"
-      ],
-      "extends": ["plugin:testing-library/react"]
+      "files": ["src/pages/**", "*.styled.tsx", "**/__mocks__/**"],
+      "rules": {
+        "import/no-default-export": "off"
+      }
+    },
+    {
+      // or whatever matches stories specified in .storybook/main.js
+      "files": ["*.stories.@(ts|tsx|js|jsx|mjs|cjs)"],
+      "rules": {
+        "func-style": ["error", "declaration", { "allowArrowFunctions": true }],
+        "import/no-default-export": "off",
+        "storybook/story-exports": "off"
+      }
+    },
+    {
+      "files": ["src/ui/**"],
+      "rules": {
+        "no-restricted-imports": "off",
+        "@typescript-eslint/no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": ["~/**", "src/**"],
+                "message": "Reason: you must only reference other 'ui' code, by relative path, from inside the 'ui' folder."
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

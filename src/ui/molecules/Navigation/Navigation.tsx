@@ -1,9 +1,9 @@
-import { Button } from "../../atoms/Button";
+import { Button } from '../../atoms/Button'
 
 export function Navigation() {
-    return(
-        <nav>
-            <Button />
-        </nav>
-    )
+  return (
+    <nav>
+      <Button />
+    </nav>
+  )
 }
